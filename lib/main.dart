@@ -1,4 +1,4 @@
-import 'package:biblioteque/sreen/book_list.dart';
+import 'package:biblioteque/screens/book_list.dart';
 import 'package:flutter/material.dart';
 
 void main() {

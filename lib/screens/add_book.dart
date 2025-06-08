@@ -10,8 +10,7 @@ class AddUpdatePage extends StatefulWidget {
 class _AddUpdatePageState extends State<AddUpdatePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text("Bibliotèque"),
         backgroundColor: Colors.blue,
@@ -19,7 +18,6 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
       body: Center(
         child: Text("Bienvenue sur la page d'ajout"),
       )
-      ),
     );
   }
 }
