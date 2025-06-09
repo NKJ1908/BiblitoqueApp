@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           } else if (snapshot.hasError) {
             return Center(child: Text("Erreur : ${snapshot.error}"));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Aucun livre trouvé."));
+            return const Center(child: Text("Votre bibliotèque est vide."));
           }
           final list = snapshot.data!;
 
@@ -49,9 +49,9 @@ class _HomePageState extends State<HomePage> {
               return Card(
                 margin: EdgeInsets.all(10),
                 child: ListTile(
-                  leading: Icon(Icons.book),
-                  title: Text(book.titre),
-                  subtitle: Text(book.auteur),
+                  leading: Icon(Icons.book, color: Colors.blueGrey, weight: 20,),
+                  title: Text(book.titre.toUpperCase(),style: TextStyle(fontSize: 20),),
+                  subtitle: Text("${book.auteur.toUpperCase()} - ${book.publicationYear}",style: TextStyle(fontSize: 15),),
                   trailing: IconButton(icon: Icon(Icons.delete,color: Colors.red),onPressed: ()async{
                     final confirm = await showDialog<bool>(context: context, builder: (context) => AlertDialog(
                       title: Text("Confirmation"),
@@ -68,13 +68,14 @@ class _HomePageState extends State<HomePage> {
                       await BookDatabase.instance.delete(book.id!);
                       refreshbooks();
                     }
-                  },
+                  },                                                                         
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DetailsPage()),
+                      MaterialPageRoute(builder: (context) => DetailsPage(book:book)),
                     );
+                    refreshbooks();
                   },
                 ),
               );
