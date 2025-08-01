@@ -1,9 +1,11 @@
 import 'package:biblioteque/db/book_database.dart';
 import 'package:biblioteque/models/book.dart';
 import 'package:biblioteque/screens/add_book.dart';
+import 'package:biblioteque/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({super.key,required this.book});
+  const DetailsPage({super.key, required this.book});
   final Book book;
 
   @override
@@ -11,77 +13,124 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  Future <void>_deleteBook(BuildContext context) async{
-    final confirm = await showDialog<bool>(context: context, builder: (context) => AlertDialog(
-          title: Text("Confirmation"),
-          content: Text("Voulez-vous supprimer ce livre?"),
-          actions: [
+  Future<void> _deleteBook(BuildContext context) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Confirmation", style: TextStyle(fontSize: 30)),
+        content: Text(
+          "Voulez-vous supprimer ce livre?",
+          style: TextStyle(fontSize: 20),
+        ),
+        actions: [
           TextButton(
-          onPressed: ()=>Navigator.pop(context, false), 
-          child: const Text("Annuler")),
-          ElevatedButton(onPressed: ()=>Navigator.pop(context, true), child: const Text("Supprimer"))
-          ],
-          ));
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text("Annuler"),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text("Supprimer"),
+          ),
+        ],
+      ),
+    );
 
-          if (confirm == true){
-          await BookDatabase.instance.delete(widget.book.id!);
-        }
-          }
+    if (confirm == true) {
+      await BookDatabase.instance.delete(widget.book.id!);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Livre supprimé avec succès"),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => HomePage()),
+        (Route) => false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text(widget.book.titre.toUpperCase()),
+        backgroundColor: Colors.blueGrey,
+        title: Text(
+          widget.book.titre.toUpperCase(),
+          style: TextStyle(fontSize: 30, color: Colors.white),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: ()async{
-              await Navigator.push(context, MaterialPageRoute(builder: (context)=>AddUpdatePage(book: widget.book,)));
-            }, 
-      ),
-      IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: ()=>_deleteBook(context))
-        ],
-      ),
-      body: Padding(padding: const EdgeInsets.all(20),
-      child: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-            child: Text("Titre: ${widget.book.titre}", style: const TextStyle(fontSize: 20)),
+            icon: Icon(Icons.edit, color: Colors.blue),
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddUpdatePage(book: widget.book),
+                ),
+              );
+            },
           ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-            child: Text("Auteur: ${widget.book.auteur}"),
-          ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-            child: Text("Genre: ${widget.book.genre}"),
-          ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-            child: Text("Année de publiation: ${widget.book.publicationYear}"),
-          ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-            child: Text("Résumé: ${widget.book.resume}"),
+          IconButton(
+            icon: Icon(Icons.delete, color: Colors.red),
+            onPressed: () => _deleteBook(context),
           ),
         ],
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(style: BorderStyle.solid),
+              ),
+              child: Text(
+                "Titre: ${widget.book.titre}",
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(style: BorderStyle.solid),
+              ),
+              child: Text("Auteur: ${widget.book.auteur}"),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(style: BorderStyle.solid),
+              ),
+              child: Text("Genre: ${widget.book.genre}"),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(style: BorderStyle.solid),
+              ),
+              child: Text(
+                "Année de publiation: ${widget.book.publicationYear}",
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(style: BorderStyle.solid),
+              ),
+              child: Text("Résumé: ${widget.book.resume}"),
+            ),
+          ],
+        ),
       ),
-      
     );
   }
 }

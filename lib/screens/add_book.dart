@@ -53,7 +53,8 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     }
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.book == null
     ?"Livre ajoutée avec succès"
-    :"Livre mis à jour"),
+    :"Livre mis à jour avec succès"),
+    backgroundColor: Colors.green,
     duration: Duration(seconds: 3),));
         
     Navigator.pushAndRemoveUntil(
@@ -69,8 +70,8 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     final isEditing = widget.book != null;
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? "Modifier le livre":"Ajouter un livre"),
-        backgroundColor: Colors.blue,
+        title: Text(isEditing ? "Modifier le livre":"Ajouter un livre",style: TextStyle(fontSize: 30,color: Colors.white),),centerTitle: true,
+        backgroundColor: Colors.blueGrey,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -110,7 +111,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                 maxLines: 3,
               ),
               const SizedBox(height: 20,),
-              ElevatedButton(onPressed: saveBook, child: Text(isEditing ? "Mettre à jour":"Enrégistrer"))
+              ElevatedButton(onPressed: saveBook,style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey,foregroundColor: Colors.white), child: Text(isEditing ? "Mettre à jour":"Enrégistrer",style: TextStyle(fontSize: 20),),)
             ],
           )
           ),

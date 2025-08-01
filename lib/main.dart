@@ -1,3 +1,4 @@
+import 'package:biblioteque/screens/first_screen.dart';
 import 'package:biblioteque/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: HomePage(),
+        body: FirstScreen(),
       ),
     );
   }

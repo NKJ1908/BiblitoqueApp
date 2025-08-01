@@ -1,3 +1,4 @@
+/// Modèle représentant un livre
 class Book {
   final int? id;
   final String titre;
@@ -14,7 +15,7 @@ class Book {
     required this.publicationYear,
     required this.resume,
     });
-
+/// Convertir un objet livre en map pour SQLite
     Map<String, dynamic> toMap(){
       return {
         'id': id,
@@ -25,7 +26,7 @@ class Book {
         'resume': resume,
       };
     }
-
+/// Reconversion d'un map récupérer depuis la base de donnée en objet livre
     factory Book.fromMap(Map<String,dynamic>map){
       return Book(
         id : map['id'],
